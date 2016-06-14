@@ -29,7 +29,7 @@ class Tile {
 
   // core game logic
   void handleClick() {
-    if (!matched && mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
+    if (!matched && !display && mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
       guesses.add(this);
       show();
     }
