@@ -2,6 +2,10 @@ import java.util.Collections;
 
 final int MAX_GUESSES = 2;
 
+int numAttempts = 0;
+int numMatched = 0;
+int precision = 0;
+
 int numTiles = 18;
 int tileW = 60; // width
 int tileH = 60; // height
@@ -27,7 +31,19 @@ void setup() {
 }
 
 void draw() {
+  background(255);
   drawTiles();
+  stats(100, 300, 16);
+}
+
+void stats(int x, int y, int fontSize) {
+  fill(0);
+  textSize(fontSize);
+  text("Attempts: " + numAttempts, x, y + spacing);
+  text("Matches: " + numMatched, x, y + fontSize + spacing);
+  String p = numAttempts == 0 ? "0" : str(round(float(numMatched) / float(numAttempts)));
+  text("Precision: " + p, x, y + 2 * fontSize + spacing);  
+  text("Time: " + millis() / 1000, x, y + 3 * fontSize + spacing);
 }
 
 // build shuffled tiles
@@ -76,7 +92,9 @@ void mousePressed() {
     if(guess1.label.equals(guess2.label)) {
       guess1.matched = true;
       guess2.matched = true;
+      numMatched++;
     }
+    numAttempts++;
   } else if (guesses.size() > MAX_GUESSES) {
     Tile guess1 = guesses.get(0);
     Tile guess2 = guesses.get(1);
